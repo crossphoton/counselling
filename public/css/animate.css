@@ -1,0 +1,17 @@
+.animation{
+    position: fixed;
+    width: 6px;
+    height: 100vh;
+    border-radius: 50%;
+    opacity: 0;
+}
+
+.animation-right{
+    box-shadow: 10px 0px 20px 10px #1FBED6;
+    left: -12px;
+}
+
+.animation-left{
+    box-shadow: -10px 0px 20px 10px #1FBED6;
+    right: -12px;
+}

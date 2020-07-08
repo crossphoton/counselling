@@ -1,0 +1,73 @@
+<%- include('common/header') %>
+<h1>Select Category</h1>
+<form class="main">
+    <div id="category-select">
+        <input type="radio" id="gen" name="category" value="General" checked>
+        <label for="gen">General</label>
+
+        <input type="radio" id="st" name="category" value="ST">
+        <label for="st">ST</label>
+
+        <input type="radio" id="sc" name="category" value="SC">
+        <label for="sc">SC</label>
+        
+        <input type="radio" id="obc" name="category" value="OBC">
+        <label for="obc">OBC</label>
+        
+        <input type="radio" id="obc_pwd" name="category" value="OBC PWD">
+        <label for="obc_pwd">OBC PWD</label>
+
+        <input type="radio" id="ews" name="category" value="EWS">
+        <label for="ews">EWS</label>
+
+        <input type="radio" id="gen_pwd" name="category" value="General PWD">
+        <label for="gen_pwd">General PWD</label>
+        
+        <input type="radio" id="gen_fem" name="category" value="General Female">
+        <label for="gen_fem">General Female</label>
+        
+        <input type="radio" id="ews_fem" name="category" value="EWS Female">
+        <label for="ews_fem">EWS Female</label>
+        
+        <input type="radio" id="obc_fem" name="category" value="OBC Female">
+        <label for="obc_fem">OBC Female</label>
+
+        <input type="radio" id="st_fem" name="category" value="ST Female">
+        <label for="st_fem">ST Female</label>
+
+        <input type="radio" id="sc_fem" name="category" value="SC Female">
+        <label for="sc_fem">SC Female</label>
+    </div>
+
+    <br><br><br><br><br><br>
+    
+    <div class="year">
+        <select id="year" class="custom-select custom-select-lg" required>
+            <option value=2016> 2016 </option>
+            <option value=2017> 2017 </option>
+            <option value=2018> 2018</option>
+            <option value=2019> 2019 </option>
+            <option value=2020> 2020 </option>
+        </select>
+    </div>
+    <div class="institute">
+        <select id="college" class="custom-select custom-select-lg" required>
+            <% list.forEach(item =>{ %>
+                <option value= <%= item.shortID %> > <%= item.name %> </option>
+            <% }) %>
+        </select>
+        <button class="submit" type="submit">Next</button>
+    </div>
+</form>
+<script>
+    // const category = document.querySelector("#category-select");
+    document.querySelector('.main').addEventListener('submit', (e)=>{
+        e.preventDefault();
+        const institute = document.querySelector("#college").value;
+        const year = document.querySelector("#year").value;
+        const category = document.querySelector('#category-select input[type="radio"]:checked').id;
+        const url = `${window.location.origin}/feed/${year}/${institute}/${category}`;
+        window.location.assign(url);
+    })
+</script>
+<%- include('common/footer') %>

@@ -1,0 +1,152 @@
+<%- include('common/header') %>
+<style>
+    .blue{
+        color: #1FBED6;
+        fill: #1FBED6;
+    }
+    .main{
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+    }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    input[type=number] {
+        -moz-appearance: textfield;
+        width: 30%;
+    }
+    .data{
+        padding: 30px;
+    }
+    main{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .btn{
+        border: #1FBED6 solid 2px;
+        border-radius: 25px;
+        color: #1FBED6;
+        width: 100px;
+    }
+    .btn:hover{
+        background-color: #1FBED6;
+        color: white;
+    }
+</style>
+<link rel="stylesheet" href="/css/animate.css">
+<div>
+    <div class="animation animation-right">
+    </div>
+    <div class="animation animation-left">
+    </div>
+</div>
+
+<h1><%= institute.name %> </h1>
+<div class="blue"><%= category.toUpperCase().split("_").join(" ") %></div>
+<br><br><br>
+<div class="branch-container">
+    Branch: <select id="branch" class="custom-select custom-select-lg" required>
+        <% institute.branch.forEach(item =>{ %>
+            <option value="<%= item %>"> <%= item %> </option>
+        <% }) %>
+    </select>
+</div>
+<form class="main">
+    <div class="data-container">
+        <% for(var i=1; i<8; i++){ %>
+        <div class="data">
+            <input type="text" value="Round <%= String(i) %>" id="round" disabled>
+            <input type="number" name="opening" id="opening" required value="123" placeholder="Opening Rank">
+            <input type="number" name="closing" id="closing" required value="123" placeholder="Closing Rank">
+        </div>
+        <% } %>
+        <div class="data">
+            <input type="text" value="Special Round 1" id="round" disabled>
+            <input type="number" name="opening" id="opening" required value="123" placeholder="Opening Rank">
+            <input type="number" name="closing" id="closing" required value="123" placeholder="Closing Rank">
+        </div>
+        <div class="data">
+            <input type="text" value="Special Round 2" id="round" disabled>
+            <input type="number" name="opening" id="opening" required value="123" placeholder="Opening Rank">
+            <input type="number" name="closing" id="closing" required value="123" placeholder="Closing Rank">
+        </div>
+    </div>
+    <button class="btn submit" type="submit">Go</button>
+</form>
+<script>
+    class Data{
+        constructor(round, opening, closing){
+            this.round = round;
+            this.opening = opening;
+            this.closing = closing;
+        }
+    }
+    const mainForm = document.querySelector(".main");
+    var arr = [];
+    const flyersRight = document.querySelector(".animation-right");
+    const flyersLeft = document.querySelector(".animation-left");
+    function animationIn(status){
+                var color = "";
+                if(status) color = "#1FBED6"
+                else color = "red";
+                flyersRight.style.boxShadow = `10px 0px 20px 10px ${color}`;
+                flyersLeft.style.boxShadow = `-10px 0px 20px 10px ${color}`;
+                var opacity = 0;
+                var count = 0;
+                var test = setInterval(() => {
+                    if(opacity == 700){
+                        clearInterval(test);
+                        animationOut();
+                    }
+                    opacity += 35;
+                    flyersRight.style.opacity = String(opacity/1000);
+                    flyersLeft.style.opacity = String(opacity/1000);
+                }, 5);
+            }
+            function animationOut(){
+                var opacity = 700;
+                var test = setInterval(() => {
+                    if(opacity == 0)
+                        clearInterval(test);
+                    opacity -= 35;
+                    flyersRight.style.opacity = String(opacity/1000);
+                    flyersLeft.style.opacity = String(opacity/1000);
+                }, 5);
+            }
+    mainForm.addEventListener('submit', async (e)=>{
+        e.preventDefault();
+        var branch = document.getElementById("branch");
+        var count = 0;
+        var round, opening, closing;
+        Object.keys(e.target).forEach((key, index)=>{
+            count++;
+            if(count ==1) round = e.target[key].value;
+            if(count ==2) opening = e.target[key].value;
+            if(count ==3) closing = e.target[key].value;
+            if(count == 3){
+                var data = new Data(round, opening, closing);
+                arr.push(data);
+                count = 0;
+            }
+        })
+        var post = await fetch(window.location.href,
+            {method : "POST",
+            mode: "cors",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            redirect: "manual",
+            body: JSON.stringify({data: arr, branch: branch.value})
+        }).then(res => {
+            animationIn(res.ok)
+        })
+        arr = [];
+    });
+</script>
+
+
+<%- include('common/footer') %>
