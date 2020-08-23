@@ -124,9 +124,9 @@
         var round, opening, closing;
         Object.keys(e.target).forEach((key, index)=>{
             count++;
-            if(count ==1) round = e.target[key].value;
-            if(count ==2) opening = e.target[key].value;
-            if(count ==3) closing = e.target[key].value;
+            if(count ==1) round = Number(e.target[key].value);
+            if(count ==2) opening = Number(e.target[key].value);
+            if(count ==3) closing = Number(e.target[key].value);
             if(count == 3){
                 var data = new Data(round, opening, closing);
                 arr.push(data);
