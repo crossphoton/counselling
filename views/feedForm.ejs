@@ -91,8 +91,14 @@
     const flyersLeft = document.querySelector(".animation-left");
     function animationIn(status){
                 var color = "";
-                if(status) color = "#1FBED6"
-                else color = "red";
+                if(status) {
+                    color = "#1FBED6";
+                    alert("Success");
+                }
+                else {
+                    color = "red";
+                    alert("Failed");
+                }
                 flyersRight.style.boxShadow = `10px 0px 20px 10px ${color}`;
                 flyersLeft.style.boxShadow = `-10px 0px 20px 10px ${color}`;
                 var opacity = 0;
