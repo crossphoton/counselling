@@ -12,7 +12,7 @@ mongo.connect(process.env.dbUrl,
 
 app.use(express.json())
 
-app.get("/result", (req, res)=>getData(req, res));
+app.get("/v1/josaa-data", (req, res)=>getData(req, res));
 
 
 app.listen(process.env.PORT|| 80, ()=>console.log("Server Up and good!!"));
