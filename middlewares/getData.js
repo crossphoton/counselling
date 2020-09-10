@@ -23,12 +23,7 @@ const getData = (req, res) => {
             if(item.branch == branch) dataFound = item.data;
         });
         
-        return res.render('searchResult', {iiit: getInstitute(req.query.institute),
-            title: getInstitute(req.query.institute).name+" - "+req.query.year,
-            year: req.query.year,
-            category: req.query.category,
-            branch: decodeURIComponent(req.query.branch),
-            data: dataFound});
+        return res.json({dataFound});
     })
 }
 
