@@ -1,7 +1,10 @@
 const express = require('express');
 const app = express();
 const mongo = require('mongoose');
+const cors = require("cors");
 const getData = require('./middlewares/getData');
+
+app.use(cors());
 
 mongo.connect(process.env.dbUrl,
 {useNewUrlParser: true, useUnifiedTopology: true},
